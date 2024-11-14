@@ -1,5 +1,12 @@
+// Time function 
+function getTimeString(time){
+  const hour = parseInt(time / 3600);
+  let remainingSecond = time % 3600;
+  const minute = parseInt(remainingSecond/60);
+  remainingSecond = remainingSecond % 60;
+  return `${hour} hour ${minute} minute ${remainingSecond} second ago`;
+};
 // 1. Fetch , Load and Show Categories on html
-
 // createLoadCategories
 const loadCategories = () => {
   // fetch data
@@ -32,7 +39,10 @@ const displayVideos = (videos) => {
       src=${video.thumbnail}
       class="h-full w-full object-cover"
       alt="Shoes" />
-      <span class="absolute right-2 bottom-2 text-white bg-black rounded p-1">${video.others.posted_date}</span>
+      ${
+        video.others.posted_date?.length == 0 ? "" : `<span class="absolute text-xs right-2 bottom-2 text-white bg-black rounded p-1">${getTimeString(video.others.posted_date)}</span>`
+      }
+      
   </figure>
   <div class="px-0 py-2 flex gap-2">
       <div>
@@ -83,3 +93,15 @@ const displayCategories = (categories) => {
 
 loadCategories();
 loadVideos();
+
+
+
+// time
+
+function getTimeString(time){
+  const hour = parseInt(time / 3600);
+  let remainingSecond = time % 3600;
+  const minute = parseInt(remainingSecond/60);
+  remainingSecond = remainingSecond % 60;
+  return `${hour} hour ${minute} minute ${remainingSecond} second ago`;
+};
