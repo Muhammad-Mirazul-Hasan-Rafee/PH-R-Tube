@@ -25,9 +25,19 @@ const loadVideos = () => {
     .catch(error => console.log(error));
 };
 
+const loadCategoryVideos = (id) => {
+  //  alert(id);
+   fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
+   .then(res => res.json())
+   .then(data => displayVideos(data.category))
+   .catch(error => console.log(error));
+};
+
+
 
 const displayVideos = (videos) => {
   const videoContainer = document.getElementById('videos');
+   videoContainer.innerHTML = "";
   videos.forEach(video => {
     // create card
     const card = document.createElement('div');
@@ -78,12 +88,17 @@ const displayCategories = (categories) => {
 
     console.log(item);
     // create a button
-    const button = document.createElement('button');
-    button.classList = 'btn';
-    button.innerText = item.category;
+    const buttonContainer = document.createElement('div');
+    buttonContainer.innerHTML = `
+
+    <button onclick="loadCategoryVideos(${item.category_id})" class="btn">
+    ${item.category}</button>
+    
+    
+    `;
 
     // add button to category container
-    categoryContainer.appendChild(button);
+    categoryContainer.appendChild(buttonContainer);
 
   });
 
@@ -93,15 +108,3 @@ const displayCategories = (categories) => {
 
 loadCategories();
 loadVideos();
-
-
-
-// time
-
-function getTimeString(time){
-  const hour = parseInt(time / 3600);
-  let remainingSecond = time % 3600;
-  const minute = parseInt(remainingSecond/60);
-  remainingSecond = remainingSecond % 60;
-  return `${hour} hour ${minute} minute ${remainingSecond} second ago`;
-};
